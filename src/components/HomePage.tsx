@@ -1,34 +1,37 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import btProducts from "@/assets/bt-products.jpg";
+import eeProducts from "@/assets/ee-products.jpg";
+import plusnetProducts from "@/assets/plusnet-products.jpg";
 
 const brands = [
   {
     id: "mybt",
-    name: "MYBT",
+    name: "BT",
     description: "BT's premium broadband and phone services for home and business",
-    color: "bg-primary",
-    textColor: "text-primary-foreground",
-    borderColor: "border-primary/20",
-    hoverColor: "hover:bg-primary/90"
+    image: btProducts,
+    gradient: "from-primary/20 to-primary/5",
+    buttonColor: "bg-primary hover:bg-primary/90",
+    textColor: "text-primary-foreground"
   },
   {
     id: "myee",
-    name: "MYEE",
+    name: "EE",
     description: "EE's award-winning mobile network and superfast broadband",
-    color: "bg-accent",
-    textColor: "text-accent-foreground", 
-    borderColor: "border-accent/20",
-    hoverColor: "hover:bg-accent/90"
+    image: eeProducts,
+    gradient: "from-accent/20 to-accent/5", 
+    buttonColor: "bg-accent hover:bg-accent/90",
+    textColor: "text-accent-foreground"
   },
   {
     id: "plusnet",
     name: "Plusnet",
     description: "Honest, straightforward broadband and phone deals",
-    color: "bg-blue-600",
-    textColor: "text-white",
-    borderColor: "border-blue-600/20",
-    hoverColor: "hover:bg-blue-700"
+    image: plusnetProducts,
+    gradient: "from-blue-600/20 to-blue-600/5",
+    buttonColor: "bg-blue-600 hover:bg-blue-700",
+    textColor: "text-white"
   }
 ];
 
@@ -81,21 +84,29 @@ const HomePage = () => {
             {brands.map((brand) => (
               <Card 
                 key={brand.id}
-                className={`cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${brand.borderColor} border-2`}
+                className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] border-0 bg-gradient-to-br overflow-hidden"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%)`
+                }}
                 onClick={() => handleBrandClick(brand.id)}
               >
-                <CardHeader className="text-center pb-4">
-                  <div className={`w-20 h-20 ${brand.color} ${brand.textColor} rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold`}>
-                    {brand.name.slice(0, 2)}
-                  </div>
-                  <CardTitle className="text-2xl text-foreground">{brand.name}</CardTitle>
-                  <CardDescription className="text-muted-foreground">
+                <div className="relative overflow-hidden">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${brand.gradient} opacity-80`} />
+                  <img 
+                    src={brand.image} 
+                    alt={`${brand.name} products`}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <CardHeader className="text-center pb-4 relative">
+                  <CardTitle className="text-3xl font-bold text-foreground mb-2">{brand.name}</CardTitle>
+                  <CardDescription className="text-muted-foreground text-base leading-relaxed">
                     {brand.description}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="pt-0">
+                <CardContent className="pt-0 pb-6">
                   <Button 
-                    className={`w-full ${brand.color} ${brand.textColor} ${brand.hoverColor}`}
+                    className={`w-full ${brand.buttonColor} ${brand.textColor} shadow-lg font-semibold py-3 text-base`}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleBrandClick(brand.id);
